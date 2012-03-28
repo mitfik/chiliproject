@@ -20,9 +20,6 @@ class Group < Principal
 
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
-  validates_length_of :lastname, :maximum => 30
-
-  alias_attribute :name, :lastname
 
   # Returns an array of all of the email addresses of the group's users
   def mails

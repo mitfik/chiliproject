@@ -23,16 +23,11 @@ class GroupTest < ActiveSupport::TestCase
     assert g.save
   end
 
-  def test_aliast_attribute_for_lastname
-    g = Group.new(:name => "New group")
-    assert g.name, "New group"
-  end
-
   def test_blank_name_error_message
     set_language_if_valid 'en'
     new_group = Group.new
-    assert !new_group.save
-    assert new_group.errors.full_messages.include? "Name can't be blank" 
+    assert !new_group.valid?
+    assert new_group.errors.full_messages.include? "Name can't be blank"
   end
 
   def test_roles_given_to_new_user
