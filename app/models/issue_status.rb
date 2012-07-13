@@ -60,7 +60,7 @@ class IssueStatus < ActiveRecord::Base
         (author || !w.author) &&
         (assignee || !w.assignee)
       end
-      transitions.collect{|w| w.new_status}.compact.sort
+      transitions.collect{|w| w.new_status}.compact.uniq.sort
     else
       []
     end
