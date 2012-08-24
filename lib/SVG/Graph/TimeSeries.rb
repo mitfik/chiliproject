@@ -1,6 +1,6 @@
 #-- encoding: UTF-8
 require 'SVG/Graph/Plot'
-require 'parsedate'
+require 'date'
 
 module SVG
   module Graph
@@ -158,8 +158,8 @@ module SVG
         y = []
         data[:data].each_index {|i|
           if i%2 == 0
-            arr = ParseDate.parsedate( data[:data][i] )
-            t = Time.local( *arr[0,6].compact )
+            arr = DateTime.parse( data[:data][i] )
+            t = Time.local(arr.year, arr.mon, arr.mday, arr.hour, arr.min, arr.sec, arr.zone)
             x << t.to_i
           else
             y << data[:data][i]
@@ -174,8 +174,8 @@ module SVG
       protected
 
       def min_x_value=(value)
-        arr = ParseDate.parsedate( value )
-        @min_x_value = Time.local( *arr[0,6].compact ).to_i
+        arr = DateTime.parse( value )
+        @min_x_value = Time.local(arr.year, arr.mon, arr.mday, arr.hour, arr.min, arr.sec, arr.zone).to_i
       end
 
 
