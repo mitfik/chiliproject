@@ -190,16 +190,10 @@ ChiliProject::Application.routes.draw do
       post :unarchive
     end
 
+    resources :queries, :only => [:new, :create]
     resource :project_enumerations, :as => 'enumerations', :only => [:update, :destroy]
     resources :files, :only => [:index, :new, :create]
-    resources :versions do
-      member do
-        post :status_by
-      end
-      collection do
-        put :closed_completed
-      end
-    end
+
     resources :news, :shallow => true
     resources :time_entries, :controller => 'timelog'
 
@@ -220,6 +214,17 @@ ChiliProject::Application.routes.draw do
         get :export
         get :date_index
       end
+    end
+    resources :versions, :except => [:index, :show, :edit, :update, :destroy] do
+      collection do
+        put 'close_completed'
+      end
+    end
+  end
+
+  resources :versions, :only => [:show, :edit, :update, :destroy] do
+    member do
+      post :status_by
     end
   end
 
