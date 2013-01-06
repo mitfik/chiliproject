@@ -2,7 +2,7 @@
 #-- copyright
 # ChiliProject is a project management system.
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ ChiliProject::Application.routes.draw do
   match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :post]
   match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post]
   match 'my/page', :controller => 'my', :action => 'page', :via => :get
-  match 'my', :controller => 'my', :action => 'index', :via => :get 
+  match 'my', :controller => 'my', :action => 'index', :via => :get
   match 'my/reset_rss_key', :controller => 'my', :action => 'reset_rss_key', :via => :post
   match 'my/reset_api_key', :controller => 'my', :action => 'reset_api_key', :via => :post
   match 'my/password', :controller => 'my', :action => 'password', :via => [:get, :post]
