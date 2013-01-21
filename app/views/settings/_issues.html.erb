@@ -14,9 +14,11 @@
 <p><%= setting_text_field :gantt_items_limit, :size => 6 %></p>
 </div>
 
+<p>TODO: fix edit fields</p>
+
 <fieldset class="box settings"><legend><%= l(:setting_issue_list_default_columns) %></legend>
 <%= setting_multiselect(:issue_list_default_columns,
-        Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label => false) %>
+        ChiliProject::Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label => false) %>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

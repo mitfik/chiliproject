@@ -12,6 +12,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+module ChiliProject
+
 class Query < ActiveRecord::Base
 
   belongs_to :project
@@ -670,4 +672,6 @@ class Query < ActiveRecord::Base
   def relative_date_clause(table, field, days_from, days_to)
     date_clause(table, field, (days_from ? Date.today + days_from : nil), (days_to ? Date.today + days_to : nil))
   end
+end
+
 end

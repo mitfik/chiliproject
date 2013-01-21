@@ -29,10 +29,14 @@
 <%= javascript_include_tag 'jquery-ui.min.js' %>
 <%= javascript_include_tag 'jquery.menu_expand.js' %>
 
-<!-- <%= javascript_tag('jQuery.noConflict();') %> -->
+<%= javascript_tag('jQuery.noConflict();') %>
 
 <%= javascript_include_tag 'modernizr.min.js' %>
+
 <%= javascript_heads %>
+
+<%= javascript_include_tag 'application', :media => 'all' %>
+
 <%= stylesheet_link_tag 'jstoolbar' %>
 <%= heads_for_theme %>
 <% heads_for_wiki_formatter %>
@@ -98,7 +102,7 @@
             <% end %>
             <li id="login-menu" class="drop-down last-child">
               <%= link_to l(:label_login), {:controller => 'account', :action => 'login'}, :class => 'login' %>
-              <div id="nav-login" style="display:none;">
+              <div id="nav-login" style="display:block;">
                 <%= render :partial => 'account/login' %>
               </div>
             </li>
