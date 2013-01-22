@@ -37,7 +37,8 @@ ChiliProject::Application.routes.draw do
 
 
   #TODO clear it
-  match 'ldap_auth_sources' => 'ldap_auth_sources#index'
+  # match 'settings', :controller => 'settings', :action => 'index', :via => :get
+  # match 'ldap_auth_sources', :controller => 'ldap_auth_sources', :action => 'index', :via => :get
 
   match 'roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match 'help/:ctrl/:page' => 'help#index'
