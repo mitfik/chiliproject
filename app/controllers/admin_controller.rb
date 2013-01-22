@@ -75,11 +75,14 @@ class AdminController < ApplicationController
   end
 
   def info
+    # TODO: the Engines class has been removed causing the check below to fail
+    # why was it removed and does it need to be added back in?
+
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
       [:text_default_administrator_account_changed, !User.find_by_login("admin").try(:check_password?, "admin")],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      [:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
+      #[:text_plugin_assets_writable, File.writable?(Engines.public_directory)],
       [:text_rmagick_available, Object.const_defined?(:Magick)]
     ]
   end
