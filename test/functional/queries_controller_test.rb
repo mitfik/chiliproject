@@ -65,7 +65,7 @@ class QueriesControllerTest < ActionController::TestCase
          :v => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
          :query => {"name" => "test_new_project_public_query", "is_public" => "1"}
 
-    q = Query.find_by_name('test_new_project_public_query')
+    q = QueryHelper.find_by_name('test_new_project_public_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
     assert q.is_public?
     assert q.has_default_columns?
@@ -83,7 +83,7 @@ class QueriesControllerTest < ActionController::TestCase
          :values => { "assigned_to_id" => ["1"], "status_id" => ["1"]},
          :query => {"name" => "test_new_project_private_query", "is_public" => "1"}
 
-    q = Query.find_by_name('test_new_project_private_query')
+    q = QueryHelper.find_by_name('test_new_project_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :query_id => q
     assert !q.is_public?
     assert q.has_default_columns?
@@ -100,7 +100,7 @@ class QueriesControllerTest < ActionController::TestCase
          :query => {"name" => "test_new_global_private_query", "is_public" => "1"},
          :c => ["", "tracker", "subject", "priority", "category"]
 
-    q = Query.find_by_name('test_new_global_private_query')
+    q = QueryHelper.find_by_name('test_new_global_private_query')
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => nil, :query_id => q
     assert !q.is_public?
     assert !q.has_default_columns?
@@ -119,7 +119,7 @@ class QueriesControllerTest < ActionController::TestCase
                     :is_public => "1",
                     :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["tracker", ""]}}
 
-    query = Query.find_by_name("test_new_with_sort")
+    query = QueryHelper.find_by_name("test_new_with_sort")
     assert_not_nil query
     assert_equal [['due_date', 'desc'], ['tracker', 'asc']], query.sort_criteria
   end
@@ -150,7 +150,7 @@ class QueriesControllerTest < ActionController::TestCase
          :query => {"name" => "test_edit_global_public_query", "is_public" => "1"}
 
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 4
-    q = Query.find_by_name('test_edit_global_public_query')
+    q = QueryHelper.find_by_name('test_edit_global_public_query')
     assert q.is_public?
     assert q.has_default_columns?
     assert q.valid?
@@ -181,7 +181,7 @@ class QueriesControllerTest < ActionController::TestCase
          :query => {"name" => "test_edit_global_private_query", "is_public" => "1"}
 
     assert_redirected_to :controller => 'issues', :action => 'index', :query_id => 3
-    q = Query.find_by_name('test_edit_global_private_query')
+    q = QueryHelper.find_by_name('test_edit_global_private_query')
     assert !q.is_public?
     assert q.has_default_columns?
     assert q.valid?
@@ -232,6 +232,6 @@ class QueriesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     post :destroy, :id => 1
     assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook', :set_filter => 1, :query_id => nil
-    assert_nil Query.find_by_id(1)
+    assert_nil QueryHelper.find_by_id(1)
   end
 end

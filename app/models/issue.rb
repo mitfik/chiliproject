@@ -76,7 +76,7 @@ class Issue < ActiveRecord::Base
 
   scope :without_version, where(:fixed_version_id => nil)
 
-  scope :with_query, lambda {|query| where(Query.merge_conditions(query.statement))}
+  scope :with_query, lambda {|query| where(QueryHelper.merge_conditions(query.statement))}
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_issue_status

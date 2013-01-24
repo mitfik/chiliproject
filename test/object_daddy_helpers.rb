@@ -33,8 +33,8 @@ module ObjectDaddyHelpers
   end
 
   # Generate the default Query
-  def Query.generate_default!(attributes={})
-    query = Query.spawn(attributes)
+  def QueryHelper.generate_default!(attributes={})
+    query = QueryHelper.spawn(attributes)
     query.name ||= '_'
     query.save!
     query

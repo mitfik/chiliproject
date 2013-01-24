@@ -12,7 +12,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Query < ActiveRecord::Base
+class QueryHelper < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
@@ -245,7 +245,7 @@ class Query < ActiveRecord::Base
 
   def available_columns
     return @available_columns if @available_columns
-    @available_columns = Query.available_columns
+    @available_columns = QueryHelper.available_columns
     @available_columns += (project ?
                             project.all_issue_custom_fields :
                             IssueCustomField.find(:all)
@@ -474,7 +474,7 @@ class Query < ActiveRecord::Base
   def issue_count
     Issue.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
-    raise Query::StatementInvalid.new(e.message)
+    raise QueryHelper::StatementInvalid.new(e.message)
   end
 
   # Returns the issue count by group or nil if query is not grouped
@@ -494,7 +494,7 @@ class Query < ActiveRecord::Base
     end
     r
   rescue ::ActiveRecord::StatementInvalid => e
-    raise Query::StatementInvalid.new(e.message)
+    raise QueryHelper::StatementInvalid.new(e.message)
   end
 
   # Returns the issues
@@ -504,12 +504,12 @@ class Query < ActiveRecord::Base
     order_option = nil if order_option.blank?
 
     Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
-                     :conditions => Query.merge_conditions(statement, options[:conditions]),
+                     :conditions => QueryHelper.merge_conditions(statement, options[:conditions]),
                      :order => order_option,
                      :limit  => options[:limit],
                      :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
-    raise Query::StatementInvalid.new(e.message)
+    raise QueryHelper::StatementInvalid.new(e.message)
   end
 
   # Returns the journals
@@ -521,16 +521,16 @@ class Query < ActiveRecord::Base
                        :limit => options[:limit],
                        :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
-    raise Query::StatementInvalid.new(e.message)
+    raise QueryHelper::StatementInvalid.new(e.message)
   end
 
   # Returns the versions
   # Valid options are :conditions
   def versions(options={})
     Version.find :all, :include => :project,
-                       :conditions => Query.merge_conditions(project_statement, options[:conditions])
+                       :conditions => QueryHelper.merge_conditions(project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
-    raise Query::StatementInvalid.new(e.message)
+    raise QueryHelper::StatementInvalid.new(e.message)
   end
 
   private

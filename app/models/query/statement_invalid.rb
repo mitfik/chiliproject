@@ -12,5 +12,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Query::StatementInvalid < ActiveRecord::StatementInvalid
+class QueryHelper::StatementInvalid < ActiveRecord::StatementInvalid
 end

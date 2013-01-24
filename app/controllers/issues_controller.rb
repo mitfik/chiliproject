@@ -26,7 +26,7 @@ class IssuesController < ApplicationController
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :create, :update, :destroy
 
-  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  rescue_from QueryHelper::StatementInvalid, :with => :query_statement_invalid
 
   include JournalsHelper
   include ProjectsHelper

@@ -196,7 +196,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 0, Board.count
     assert_equal 0, Message.count
     assert_equal 0, News.count
-    assert_equal 0, Query.count(:conditions => "project_id IS NOT NULL")
+    assert_equal 0, QueryHelper.count(:conditions => "project_id IS NOT NULL")
     assert_equal 0, Repository.count
     assert_equal 0, Changeset.count
     assert_equal 0, Change.count

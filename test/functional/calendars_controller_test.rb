@@ -33,7 +33,7 @@ class CalendarsControllerTest < ActionController::TestCase
 
   context "GET :show" do
     should "run custom queries" do
-      @query = Query.generate_default!
+      @query = QueryHelper.generate_default!
 
       get :show, :query_id => @query.id
       assert_response :success
