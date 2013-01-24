@@ -18,14 +18,14 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id)                             
           
-          "<p>TODO: fix wiki_syntax link (need correct route)</p>"
+          #"<p>TODO: fix wiki_syntax link (need correct route)</p>"
           # heads_for_wiki_formatter
-          # url = url_for(:controller => 'help', :action => 'wiki_syntax')
-          # help_link = link_to(l(:setting_text_formatting), url,
-                              # :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;",
-                              # :tabindex => -1)
-# 
-          # javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
+          url = url_for(:controller => 'help', :action => 'wiki_syntax')
+          help_link = link_to(l(:setting_text_formatting), url,
+                              :onclick => "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes\"); return false;",
+                              :tabindex => -1)
+
+          javascript_tag("var wikiToolbar = new jsToolBar($('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript help_link}'); wikiToolbar.draw();")
         end
 
         def initial_page_content(page)

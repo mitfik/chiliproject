@@ -34,8 +34,6 @@ ChiliProject::Application.routes.draw do
 
   match 'search/index' => 'search#index'
 
-
-
   #TODO clear it
   # match 'settings', :controller => 'settings', :action => 'index', :via => :get
   match 'ldap_auth_sources', :controller => 'ldap_auth_sources', :action => :index, :via => :get
@@ -44,6 +42,8 @@ ChiliProject::Application.routes.draw do
 
   match 'roles/workflow/:id/:role_id/:tracker_id' => 'roles#workflow'
   match 'help/:ctrl/:page' => 'help#index'
+
+  match 'help/wiki_syntax', :controller => 'help', :action => 'wiki_syntax'
 
   scope :controller => 'time_entry_reports', :action => 'report', :via => :get do
     match 'projects/:project_id/issues/:issue_id/time_entries/report(.:format)'
