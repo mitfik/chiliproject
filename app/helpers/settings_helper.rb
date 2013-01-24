@@ -37,7 +37,7 @@ module SettingsHelper
     setting_values = Setting.send(setting)
     setting_values = [] unless setting_values.is_a?(Array)
 
-    s = setting_label(setting, options) +
+    setting_label(setting, options) +
       hidden_field_tag("settings[#{setting}][]", '') +
       choices.collect do |choice|
             text, value = (choice.is_a?(Array) ? choice : [choice, choice])
@@ -47,31 +47,27 @@ module SettingsHelper
                         false
             )
       end.join.html_safe
-
-    logger.debug s
-
-    s
   end
 
   def setting_text_field(setting, options={})
-    setting_label(setting, options) +
-      text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    (setting_label(setting, options) +
+      text_field_tag("settings[#{setting}]", Setting.send(setting), options)).html_safe
   end
 
   def setting_text_area(setting, options={})
-    setting_label(setting, options) +
-      text_area_tag("settings[#{setting}]", Setting.send(setting), options)
+    (setting_label(setting, options) +
+      text_area_tag("settings[#{setting}]", Setting.send(setting), options)).html_safe
   end
 
   def setting_check_box(setting, options={})
-    setting_label(setting, options) +
+    (setting_label(setting, options) +
       hidden_field_tag("settings[#{setting}]", 0) +
-      check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
+      check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)).html_safe
   end
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", l(label || "setting_#{setting}"), nil, false) : ''
+    (label != false ? content_tag("label", l(label || "setting_#{setting}"), nil, false) : '').html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option

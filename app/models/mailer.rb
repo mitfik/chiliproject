@@ -21,7 +21,7 @@ class Mailer < ActionMailer::Base
   helper :journals
   helper :custom_fields
 
-  include ActionController::UrlWriter
+  # include ActionController::UrlWriter
   include Redmine::I18n
 
   def self.default_url_options
@@ -323,17 +323,25 @@ class Mailer < ActionMailer::Base
     render_multipart('mail_handler_missing_information', body)
   end
 
-  def test(user)
-    redmine_headers 'Type' => "Test"
-    set_language_if_valid(user.language)
-    recipients user.mail
-    subject 'ChiliProject test'
-    body :url => url_for(:controller => 'welcome')
-    render_multipart('test', body)
+  def test_email(user)
+    # redmine_headers 'Type' => "Test"
+
+    # @user = user
+    # @url = url_for(:controller => 'welcome')
+
+    mail(:from => "ben@nebland.com", :to => "ben@nebland.com", :subject => 'ChiliProject test')
+
+    #redmine_headers 'Type' => "Test"
+    #set_language_if_valid(user.language)
+    ## recipients user.mail
+    ## subject 'ChiliProject test'
+    ## body :url => url_for(:controller => 'welcome')
+    #render_multipart('test', user.mail, 'ChiliProject test')
+    ## render_multipart('test', user.mail, 'ChiliProject test')
   end
 
-  # Overrides default deliver! method to prevent from sending an email
-  # with no recipient, cc or bcc
+  #Overrides default deliver! method to prevent from sending an email
+  #with no recipient, cc or bcc
   def deliver!(mail = @mail)
     set_language_if_valid @initial_language
     return false if (recipients.nil? || recipients.empty?) &&
@@ -443,13 +451,13 @@ class Mailer < ActionMailer::Base
   # https://rails.lighthouseapp.com/projects/8994/tickets/2338-actionmailer-mailer-views-and-content-type
   # https://rails.lighthouseapp.com/projects/8994/tickets/1799-actionmailer-doesnt-set-template_format-when-rendering-layouts
 
-  def render_multipart(method_name, body)
+  def render_multipart(method_name)
     if Setting.plain_text_mail?
       content_type "text/plain"
-      body render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+      body render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.erb')
     else
       content_type "multipart/alternative"
-      part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.plain.erb')
+      part :content_type => "text/plain", :body => render(:file => "#{method_name}.text.plain.rhtml", :body => body, :layout => 'mailer.text.erb')
       part :content_type => "text/html", :body => render_message("#{method_name}.text.html.rhtml", body)
     end
   end

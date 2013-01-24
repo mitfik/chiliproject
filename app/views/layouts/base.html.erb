@@ -150,7 +150,7 @@
       <%= expand_current_menu %>
     <% end %>
     <div class="<%= side_displayed ? '' : "nosidebar" %>" id="content">
-      <%= render_flash_messages %>
+      <%= render_flash_messages.html_safe %>
       <%= yield %>
       <%= call_hook :view_layouts_base_content %>
       <div style="clear:both;">&nbsp;</div>
