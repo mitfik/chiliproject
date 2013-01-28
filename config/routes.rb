@@ -164,6 +164,8 @@ ChiliProject::Application.routes.draw do
 
   match 'projects/:id/members/new' => 'members#new'
 
+  match 'projects/:id/modules', :controller => :projects, :action => :modules, :via => :post
+
   scope :controller => 'users' do
     match 'users/:id/edit/:tab', :action => 'edit', :via => :get
 
@@ -331,4 +333,6 @@ ChiliProject::Application.routes.draw do
 
   # Used for OpenID
   root :to => 'account#login'
+
+  resources 'queries'
 end

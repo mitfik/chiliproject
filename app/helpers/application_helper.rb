@@ -1124,12 +1124,28 @@ module ApplicationHelper
   end
 
   def error_messages_for(obj)
+
     if obj.errors.any?
       s = ''
-      obj.errors.full_messages.each do |msg|
-        s << render(:partial => "common/flash_form_error_template", :locals => { :msg => msg})
+
+      begin
+        obj.errors.full_messages.each do |msg|
+          # s << render(:partial => "common/flash_form_error_template", :locals => { :msg => msg})
+          # { |msg| @template.content_tag(:li, message) }.join("\n")
+          s << msg
+        end
+
+      rescue => ex
+        logger.debug ex.message
       end
+
+      # s << obj.errors.full_messages.map { |message| @template.content_tag(:li, message) }.join("\n")
+
       s.html_safe
     end
+  end
+
+  def observe_field(field, options={})
+    "<p>observe_field deprecated</p>"
   end
 end

@@ -24,13 +24,17 @@ class Project < ActiveRecord::Base
 
   # Specific overidden Activities
   has_many :time_entry_activities
+
   # TODO dziwne zaleznosci
-  #has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+
   has_many :memberships, :class_name => 'Member'
+
   # TODO dziwne zaleznosci
-  #has_many :member_principals, :class_name => 'Member',
-  #                             :include => :principal,
-  #                             :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+  has_many :member_principals, :class_name => 'Member',
+                               :include => :principal,
+                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+
   has_many :users, :through => :members
   has_many :principals, :through => :member_principals, :source => :principal
 
@@ -84,6 +88,9 @@ class Project < ActiveRecord::Base
   scope :active, where(:status => STATUS_ACTIVE)
   scope :all_public, where(:is_public => true)
   scope :visible, lambda {where(Project.visible_by(User.current))}
+
+  # attr_accessible :name
+  attr_accessible :name, :description, :identifier, :homepage, :is_public #, :enabled_module_names, :tracker_ids
 
   def to_liquid
     ProjectDrop.new(self)

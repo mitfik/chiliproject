@@ -19,7 +19,7 @@
 
 <%= call_hook(:view_projects_show_top) %>
 
-<%= render_project_hierarchy(@projects)%>
+<%= render_project_hierarchy(@projects).html_safe%>
 
 <% if User.current.logged? %>
 <p style="text-align:right;">

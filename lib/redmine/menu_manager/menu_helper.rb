@@ -33,6 +33,7 @@ module Redmine::MenuManager::MenuHelper
     menu_items_for(menu, project) do |node|
       links << render_menu_node(node, project)
     end
+
     links.empty? ? nil : content_tag('ul', links.join("\n"), nil, false)
   end
 
@@ -61,11 +62,11 @@ module Redmine::MenuManager::MenuHelper
         end
       end
 
-      html << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
+      html << content_tag(:ul, standard_children_list, {:class => 'menu-children'}, false) unless standard_children_list.empty?
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)
-      html << content_tag(:ul, unattached_children_list, :class => 'menu-children unattached') unless unattached_children_list.blank?
+      html << content_tag(:ul, unattached_children_list, {:class => 'menu-children unattached'}, false) unless unattached_children_list.blank?
 
       html << '</li>'
     end

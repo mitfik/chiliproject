@@ -29,6 +29,9 @@ class Tracker < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
 
+  # attr_accessible :description, :identifier, :homepage, :is_public, :enabled_module_names, :tracker_ids
+  attr_accessible :name
+
   def to_s; name end
 
   def <=>(tracker)

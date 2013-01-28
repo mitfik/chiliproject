@@ -52,14 +52,16 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    # @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.order("#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    # @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    @issue_custom_fields = IssueCustomField.order("#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -151,7 +153,8 @@ class ProjectsController < ApplicationController
   def update
     @project.safe_attributes = params[:project]
     if validate_parent_id && @project.save
-      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      # @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+      @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].keys.grep('parent_id').size > 0
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_update)

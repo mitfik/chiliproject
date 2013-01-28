@@ -1,7 +1,6 @@
-<% form_for :project, @project,
-            :url => { :action => 'modules', :id => @project },
+<%= form_for :project,
+            :url => { :action => 'modules', :id => @project},
             :html => {:id => 'modules-form'} do |f| %>
-
 <div class="box">
 <fieldset>
 <legend><%= l(:text_select_project_modules) %></legend>
@@ -14,6 +13,7 @@
 </div>
 
 <p><%= check_all_links 'modules-form' %></p>
-<p><%= submit_tag l(:button_save) %></p>
+    <p>modules button</p>
+<p><%= submit_tag l(:button_save)%></p>
 
 <% end %>
