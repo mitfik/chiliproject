@@ -78,7 +78,7 @@
 </div><!-- .title-bar-extras -->
 </div><!-- .title-bar -->
 
-<%= error_messages_for 'query' %>
+<%= error_messages_for @query %>
 <% if @query.valid? %>
 <% if @issues.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>

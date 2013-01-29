@@ -1,14 +1,18 @@
 <h2><%=l(:label_issue_new)%></h2>
 
-<% labelled_tabular_form_for :issue, @issue, :url => {:controller => 'issues', :action => 'create', :project_id => @project},
+<%= labelled_tabular_form_for :issue, @issue, :url => {:controller => 'issues', :action => 'create', :project_id => @project},
                              :html => {:multipart => true, :id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
-    <%= error_messages_for 'issue' %>
+    <%= error_messages_for @issue %>
     <div class="box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     <%= send_notification_option %>
     </div>
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+
+<p>TODO: add preview link</p>
+<%
+=begin%>
     <%= link_to_remote l(:label_preview),
                        { :url => preview_issue_path(:project_id => @project),
                          :method => 'post',
@@ -18,6 +22,8 @@
                        }, :accesskey => accesskey(:preview) %>
 
 		<%= javascript_tag "Form.Element.focus('issue_subject');" %>
+<%
+=end %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

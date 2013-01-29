@@ -160,7 +160,7 @@ class QueryHelper < ActiveRecord::Base
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => watcher_values }
     end
 
-    if project
+    if @project
       # project specific filters
       categories = @project.issue_categories.all
       unless categories.empty?
@@ -350,7 +350,7 @@ class QueryHelper < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
-    if project && !@project.descendants.active.empty?
+    if @project && !@project.descendants.active.empty?
       ids = [project.id]
       if has_filter?("subproject_id")
         case operator_for("subproject_id")
@@ -503,11 +503,13 @@ class QueryHelper < ActiveRecord::Base
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
 
-    Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
-                     :conditions => QueryHelper.merge_conditions(statement, options[:conditions]),
-                     :order => order_option,
-                     :limit  => options[:limit],
-                     :offset => options[:offset]
+    # TODO: return correct set of issues
+    Issue.find
+    #Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
+    #                 :conditions => QueryHelper.merge_conditions(statement, options[:conditions]),
+    #                 :order => order_option,
+    #                 :limit  => options[:limit],
+    #                 :offset => options[:offset]
   rescue ::ActiveRecord::StatementInvalid => e
     raise QueryHelper::StatementInvalid.new(e.message)
   end

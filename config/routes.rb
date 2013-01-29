@@ -331,6 +331,8 @@ ChiliProject::Application.routes.draw do
 
   match 'robots.txt' => 'welcome#robots'
 
+  match 'previews/:project_id/issue', :action => :issue, :controller => :previews
+
   # Used for OpenID
   root :to => 'account#login'
 

@@ -94,4 +94,12 @@ module QueriesHelper
       end
     end
   end
+
+  def remote_function(options={})
+    "alert('remote func not implemented')"
+  end
+
+  def link_to_remote(name, options = {}, html_options = nil)
+
+  end
 end

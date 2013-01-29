@@ -26,7 +26,8 @@ class IssuesController < ApplicationController
   before_filter :build_new_issue_from_params, :only => [:new, :create]
   accept_key_auth :index, :show, :create, :update, :destroy
 
-  rescue_from QueryHelper::StatementInvalid, :with => :query_statement_invalid
+  # rescue_from QueryHelper::StatementInvalid, :with => :query_statement_invalid
+  rescue_from ActiveRecord::StatementInvalid, :with => :query_statement_invalid
 
   include JournalsHelper
   include ProjectsHelper
@@ -60,21 +61,23 @@ class IssuesController < ApplicationController
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, @limit, params['page']
       @offset ||= @issue_pages.current.offset
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-                              :order => sort_clause,
-                              :offset => @offset,
-                              :limit => @limit)
+
+      @issues = Issue.all
+      #@issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+      #                        :order => sort_clause,
+      #                        :offset => @offset,
+      #                        :limit => @limit)
       @issue_count_by_group = @query.issue_count_by_group
 
       respond_to do |format|
-        format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
+        format.html { render :template => 'issues/index.html.erb', :layout => !request.xhr? }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
       # Send html if the query is not valid
-      render(:template => 'issues/index.rhtml', :layout => !request.xhr?)
+      render(:template => 'issues/index.html.erb', :layout => !request.xhr?)
     end
   rescue ActiveRecord::RecordNotFound
     render_404
