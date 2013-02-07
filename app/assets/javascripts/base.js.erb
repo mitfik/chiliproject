@@ -97,7 +97,7 @@ $(document).ready(function() {
   };
 
   // Click on the menu header with a dropdown menu
-  $('#account-nav .drop-down').live('click', function(event) {
+  $('#account-nav .drop-down').on('click', function(event) {
     var menuItem = $(this);
     var menuUl = menuItem.find('> ul');
     menuUl.css('height', 'auto');
@@ -113,7 +113,7 @@ $(document).ready(function() {
   });
 
   // Click on an actual item
-  $('#account-nav .drop-down ul a').live('click', function(event) {
+  $('#account-nav .drop-down ul a').on('click', function(event) {
     event.stopPropagation();
   });
 
